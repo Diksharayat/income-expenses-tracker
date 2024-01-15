@@ -3,14 +3,20 @@ require("./config/dbConnect");
 const usersRoute =require('./routes/users/usersRoute')
 const transactionsRoute =require('./routes/transactions/transactionsRoute');
 const accountsRoute=require("./routes/users/usersRoute");
+const globalErrHandler = require('./middlewares/globalErrHandler');
+
+
 const app=express();
  
 // middlewares
+app.use(express.json()) //pass incoming data
 
 // routes
 // user routes
 app.use("/api/v1/users",usersRoute);
+//transaction route
 app.use("/api/v1/transactions",transactionsRoute);
+//account route
 app.use("/api/v1/accounts",accountsRoute);
 
 
@@ -71,6 +77,8 @@ app.put('/api/v1/accounts/:id',async(req,res)=>{
 
 
 // Error handlers
+app.use(globalErrHandler);
+
  
 // listen to server
 const port = process.env.PORT||6000;
